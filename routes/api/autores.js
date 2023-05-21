@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const {create,getById, update} = require('../../models/autor.model');
+const {create,getById, update,deleteAutor} = require('../../models/autor.model');
 
 //Creación de un autor
 router.post('/', async (req,res) => {
@@ -34,13 +34,31 @@ router.get('/:autorId', async (req,res) => {
 //Actualizar autor 
 router.put('/:autorId', async (req, res) => {
     const autorId = req.params.autorId;
-    
+
     try {
         await update(autorId, req.body);
         const [autorActualizado] = await getById(autorId);
         res.json(autorActualizado[0]);
-    } catch (error) {
-        res.status(500).json({ fatal: error.message })
+    } catch (err) {
+        res.status(500).json({ fatal: err.message })
+    }
+});
+
+//Borrar un autor
+router.delete('/:autorId', async (req, res) => {
+    const autorId = req.params.autorId;
+
+    try {
+        const [autor] = await getById(autorId);
+        if (!autor || autor.length == 0) {
+            return res.json({
+                fatal: `El autor con el id ${autorId} no existe`
+            });
+        }
+        await deleteAutor(autorId);
+        res.json(autor[0]);
+    } catch (err) {
+        res.status(500).json({ fatal: err.message })
     }
 });
 module.exports = router;

@@ -28,4 +28,8 @@ const update = (autorId,bodyUpdate) => {
     )
 }
 
-module.exports = {create, getById, update};
+const deleteAutor = (autorID) => {
+    return db.query('delete from autores where id = ?', [autorID]);
+}
+
+module.exports = {create, getById, update, deleteAutor};

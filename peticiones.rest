@@ -10,14 +10,14 @@ Content-Type: application/json
 
 {
     "nombre": "Lorca", 
-    "email": "asddddd@gmail.com",
+    "email": "bbb@gmail.com",
     "imagen": "https://i.imgur.com/VEIKbp0.png"
 }
 
 
 ###
 //Recuperar 1 autor
-GET {{host}}/api/autores/20
+GET {{host}}/api/autores/22
 
 ###
 //Actualizar un autor
@@ -27,6 +27,10 @@ Content-Type: application/json
 {
     "email": "fffff@gmail.com",
 }
+
+###
+//Borrar un autor
+DELETE {{host}}/api/autores/23
 
 
 // -- Posts --------------------------------------------------------------------------/
@@ -40,23 +44,26 @@ Content-Type: application/json
     "titulo": "Mi ultimo blog", 
     "descripcion": "Primer blog descripción del mundo",
     "categoria":"1",
-    "autores_id":20
+    "autores_id":23
 }
 
 ###
 //Recuperar un post
-GET {{host}}/api/posts/9
+GET {{host}}/api/posts/10
 
 ###
 //Recuperar posts por autor
-GET {{host}}/api/posts/getByAutor/77
+GET {{host}}/api/posts/getByAutor/22
 
 ###
 //Actualizar un post
-
 PUT {{host}}/api/posts/9
 Content-Type: application/json
 
 {
     "fecha_creacion": "2025-09-08"
 }
+
+###
+//Borrar un post
+DELETE {{host}}/api/posts/9

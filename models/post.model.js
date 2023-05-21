@@ -38,4 +38,10 @@ const update = (postId,bodyUpdate) => {
         parameters
     )
 }
-module.exports = {create,getById,getPostsByAutor, update};
+
+//Borrar un post
+const deletePost = (postId) => {
+    return db.query('delete from posts where id = ?', [postId]);
+}
+
+module.exports = {create,getById,getPostsByAutor, update, deletePost};

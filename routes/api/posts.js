@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const dayjs = require('dayjs');
 
-const {create,getById,getPostsByAutor,update} = require('../../models/post.model');
+const {create, getById, getPostsByAutor, update, deletePost} = require('../../models/post.model');
 
 //Creación de un post
 router.post('/', async (req,res) => {
@@ -65,6 +65,24 @@ router.put('/:postId', async (req, res) => {
         res.json(postActualizado[0]);
     } catch (error) {
         res.status(500).json({ fatal: error.message })
+    }
+});
+
+//Borrar un post
+router.delete('/:postId', async (req, res) => {
+    const postId = req.params.postId;
+
+    try {
+        const [post] = await getById(postId);
+        if (!post || post.length == 0) {
+            return res.json({
+                fatal: `El post con el id ${postId} no existe`
+            });
+        }
+        await deletePost(postId);
+        res.json(post[0]);
+    } catch (err) {
+        res.status(500).json({ fatal: err.message })
     }
 });
 
