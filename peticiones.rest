@@ -1,0 +1,14 @@
+
+@host = http://localhost:3000
+
+POST {{host}}/api/autores
+Content-Type: application/json
+
+{
+    "nombre": "Lorca", 
+    "email": "asddddd@gmail.com",
+    "imagen": "https://i.imgur.com/VEIKbp0.png"
+}
+
+###
+GET {{host}}/api/autores/20
