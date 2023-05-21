@@ -4,7 +4,7 @@ const create = ({titulo, descripcion, fecha_creacion, categoria, autores_id}) =>
         "insert into posts (titulo, descripcion, fecha_creacion, categoria, autores_id)"+
         "values (?,?,?,?,?)",
         [titulo,descripcion,fecha_creacion,categoria,autores_id]);
-}
+};
 
 //Recuperar post y su autor
 const getById = (postId) =>{
@@ -14,7 +14,14 @@ const getById = (postId) =>{
         "JOIN autores as a ON a.id = p.autores_id " +
         "where p.id = ?"
     ,[postId]);
-}
+};
+
+//Recuperar todos los posts
+const getAll = () =>{
+    return db.query( "select p.id, p.titulo, p.descripcion, p.fecha_creacion, p.categoria, p.autores_id, a.nombre, a.email, a.imagen " + 
+                     "from posts as p " +
+                     "JOIN autores as a ON a.id = p.autores_id ");
+};
 
 //Recuperar posts creados por un autor en concreto
 const getPostsByAutor = (autorID) => {
@@ -24,7 +31,7 @@ const getPostsByAutor = (autorID) => {
         "JOIN autores as a ON a.id = p.autores_id " +
         "where p.autores_id = ?"
     ,[autorID]);
-} 
+};
 
 //Actualizar un post
 const update = (postId,bodyUpdate) => {
@@ -37,11 +44,11 @@ const update = (postId,bodyUpdate) => {
         query,
         parameters
     )
-}
+};
 
 //Borrar un post
 const deletePost = (postId) => {
     return db.query('delete from posts where id = ?', [postId]);
-}
+};
 
-module.exports = {create,getById,getPostsByAutor, update, deletePost};
+module.exports = {create,getById, getAll , getPostsByAutor, update, deletePost};

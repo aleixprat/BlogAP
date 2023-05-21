@@ -4,7 +4,7 @@ const create = ({nombre, email, imagen}) => {
         "insert into autores (nombre, email, imagen)"+
         "values (?,?,?)",
         [nombre,email,imagen]);
-}
+};
 
 //Recuperar autor
 const getById = (autorId) =>{
@@ -13,7 +13,12 @@ const getById = (autorId) =>{
         "where id = ?",
         [autorId]
     )
-}
+};
+
+//Recuperar todos los autores
+const getAll = () =>{
+    return db.query("select * from autores");
+};
 
 //Actualizar un autor
 const update = (autorId,bodyUpdate) => {
@@ -26,10 +31,10 @@ const update = (autorId,bodyUpdate) => {
         query,
         parameters
     )
-}
+};
 
 const deleteAutor = (autorID) => {
     return db.query('delete from autores where id = ?', [autorID]);
-}
+};
 
-module.exports = {create, getById, update, deleteAutor};
+module.exports = {create, getById, getAll, update, deleteAutor};

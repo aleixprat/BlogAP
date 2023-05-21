@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const {create,getById, update,deleteAutor} = require('../../models/autor.model');
+const {create, getById, getAll, update,deleteAutor} = require('../../models/autor.model');
 
 //Creación de un autor
 router.post('/', async (req,res) => {
@@ -31,13 +31,33 @@ router.get('/:autorId', async (req,res) => {
     }
 })
 
+//Recuperar todos los autores
+router.get('/', async (req,res) => {
+    try {
+        const [autoresRecuperados] = await getAll();
+        if (!autoresRecuperados || autoresRecuperados.length == 0) {
+           return res.json({
+            fatal: `No existen autores`
+           });
+        }
+        res.json(autoresRecuperados);
+
+    } catch(err) {
+        res.status(500).json({ fatal: err.message })
+    }
+})
+
 //Actualizar autor 
 router.put('/:autorId', async (req, res) => {
     const autorId = req.params.autorId;
-
     try {
         await update(autorId, req.body);
         const [autorActualizado] = await getById(autorId);
+        if (!autorActualizado || autorActualizado.length == 0) {
+            return res.json({
+                fatal: `El autor con el id ${autorId} no existe`
+            });
+        }
         res.json(autorActualizado[0]);
     } catch (err) {
         res.status(500).json({ fatal: err.message })

@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const dayjs = require('dayjs');
 
-const {create, getById, getPostsByAutor, update, deletePost} = require('../../models/post.model');
+const {create, getById, getAll, getPostsByAutor, update, deletePost} = require('../../models/post.model');
 
 //Creación de un post
 router.post('/', async (req,res) => {
@@ -15,7 +15,7 @@ router.post('/', async (req,res) => {
     } catch(err) {
         res.status(500).json({ fatal: err.message })
     }
-})
+});
 
 //Recuperar un post por su ID
 router.get('/:postId', async (req,res) => {
@@ -34,7 +34,25 @@ router.get('/:postId', async (req,res) => {
     } catch(err) {
         res.status(500).json({ fatal: err.message })
     }
-})
+});
+
+//Recuperar todos los posts
+router.get('/', async (req,res) => {
+
+    try {
+        const [postsRecuperados] = await getAll();
+        if (!postsRecuperados || postsRecuperados.length == 0) {
+           return res.json({
+            fatal: `No existen posts`
+           });
+        }
+
+        res.json(postsRecuperados);
+
+    } catch(err) {
+        res.status(500).json({ fatal: err.message })
+    }
+});
 
 //Recuperar todos los posts de un autor
 router.get('/getByAutor/:autorId', async (req,res) => {
@@ -53,7 +71,7 @@ router.get('/getByAutor/:autorId', async (req,res) => {
     } catch(err) {
         res.status(500).json({ fatal: err.message })
     }
-})
+});
 
 //Actualziar un post
 router.put('/:postId', async (req, res) => {
@@ -62,6 +80,11 @@ router.put('/:postId', async (req, res) => {
     try {
         await update(postId, req.body);
         const [postActualizado] = await getById(postId);
+        if (!postActualizado || postActualizado.length == 0) {
+            return res.json({
+                fatal: `El post con el id ${postId} no existe`
+            });
+        }
         res.json(postActualizado[0]);
     } catch (error) {
         res.status(500).json({ fatal: error.message })
