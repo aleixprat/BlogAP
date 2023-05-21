@@ -1,6 +1,7 @@
 
 @host = http://localhost:3000
 
+//Crear un autor
 POST {{host}}/api/autores
 Content-Type: application/json
 
@@ -10,5 +11,26 @@ Content-Type: application/json
     "imagen": "https://i.imgur.com/VEIKbp0.png"
 }
 
+
 ###
+//Recuperar 1 autor
 GET {{host}}/api/autores/20
+
+
+
+###
+//Crear un post
+POST {{host}}/api/posts
+Content-Type: application/json
+
+{
+    "titulo": "Septimo blog", 
+    "descripcion": "Primer blog descripción del mundo",
+    "fecha_creacion": "2023-09-01",
+    "categoria":"1",
+    "autores_id":20
+}
+
+###
+//Recuperar un post
+GET {{host}}/api/posts/9
