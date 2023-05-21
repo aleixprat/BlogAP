@@ -24,7 +24,7 @@ POST {{host}}/api/posts
 Content-Type: application/json
 
 {
-    "titulo": "Septimo blog", 
+    "titulo": "Octavo blog", 
     "descripcion": "Primer blog descripción del mundo",
     "fecha_creacion": "2023-09-01",
     "categoria":"1",
@@ -34,3 +34,17 @@ Content-Type: application/json
 ###
 //Recuperar un post
 GET {{host}}/api/posts/9
+
+###
+//Recuperar posts por autor
+GET {{host}}/api/posts/getByAutor/77
+
+###
+//Actualizar un post
+
+PUT {{host}}/api/posts/9
+Content-Type: application/json
+
+{
+    "fecha_creacion": "2025-09-08"
+}

@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const {create,getById} = require('../../models/post.model');
+const {create,getById,getPostsByAutor,update} = require('../../models/post.model');
 
 //Creación de un post
 router.post('/', async (req,res) => {
@@ -30,5 +30,37 @@ router.get('/:postId', async (req,res) => {
         res.status(500).json({ fatal: err.message })
     }
 })
+
+//Recuperar todos los posts de un autor
+router.get('/getByAutor/:autorId', async (req,res) => {
+    const autorId = req.params.autorId;
+
+    try {
+        const [postsRecuperados] = await getPostsByAutor(autorId);
+        if (!postsRecuperados || postsRecuperados.length == 0) {
+           return res.json({
+            fatal: `No existen posts con el autor con el id ${autorId}`
+           });
+        }
+
+        res.json(postsRecuperados);
+
+    } catch(err) {
+        res.status(500).json({ fatal: err.message })
+    }
+})
+
+//Actualziar un post
+router.put('/:postId', async (req, res) => {
+    const postId = req.params.postId;
+
+    try {
+        await update(postId, req.body);
+        const [postActualizado] = await getById(postId);
+        res.json(postActualizado[0]);
+    } catch (error) {
+        res.status(500).json({ fatal: error.message })
+    }
+});
 
 module.exports = router;
