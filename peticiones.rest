@@ -1,6 +1,9 @@
 
 @host = http://localhost:3000
 
+
+// -- Autores --------------------------------------------------------------------------/
+
 //Crear un autor
 POST {{host}}/api/autores
 Content-Type: application/json
@@ -16,7 +19,17 @@ Content-Type: application/json
 //Recuperar 1 autor
 GET {{host}}/api/autores/20
 
+###
+//Actualizar un autor
+PUT {{host}}/api/autores/15
+Content-Type: application/json
 
+{
+    "email": "fffff@gmail.com",
+}
+
+
+// -- Posts --------------------------------------------------------------------------/
 
 ###
 //Crear un post
@@ -24,9 +37,8 @@ POST {{host}}/api/posts
 Content-Type: application/json
 
 {
-    "titulo": "Octavo blog", 
+    "titulo": "Mi ultimo blog", 
     "descripcion": "Primer blog descripción del mundo",
-    "fecha_creacion": "2023-09-01",
     "categoria":"1",
     "autores_id":20
 }

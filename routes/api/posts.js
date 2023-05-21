@@ -1,9 +1,14 @@
 const router = require('express').Router();
+const dayjs = require('dayjs');
+
 const {create,getById,getPostsByAutor,update} = require('../../models/post.model');
 
 //Creación de un post
 router.post('/', async (req,res) => {
     try {
+        req.body.fecha_creacion = dayjs().format("YYYY-MM-DD"); 
+        console.log(req.body);
+
         const [result] = await create(req.body);
         const [[postRecuperado]] = await getById(result.insertId);
         res.json(postRecuperado);

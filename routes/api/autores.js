@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const {create,getById} = require('../../models/autor.model');
+const {create,getById, update} = require('../../models/autor.model');
 
 //Creación de un autor
 router.post('/', async (req,res) => {
@@ -31,4 +31,16 @@ router.get('/:autorId', async (req,res) => {
     }
 })
 
+//Actualizar autor 
+router.put('/:autorId', async (req, res) => {
+    const autorId = req.params.autorId;
+    
+    try {
+        await update(autorId, req.body);
+        const [autorActualizado] = await getById(autorId);
+        res.json(autorActualizado[0]);
+    } catch (error) {
+        res.status(500).json({ fatal: error.message })
+    }
+});
 module.exports = router;

@@ -15,4 +15,17 @@ const getById = (autorId) =>{
     )
 }
 
-module.exports = {create, getById};
+//Actualizar un autor
+const update = (autorId,bodyUpdate) => {
+    const query = "update autores set " + 
+                    Object.keys(bodyUpdate).map(key => `${key} = ?`).join(", ") + 
+                    " where id = ?";
+    const parameters = [...Object.values(bodyUpdate), autorId];
+    
+    return db.query(
+        query,
+        parameters
+    )
+}
+
+module.exports = {create, getById, update};
